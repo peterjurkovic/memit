@@ -1,20 +1,17 @@
 package io.memit.model;
 
-import java.beans.Transient;
+import javax.persistence.Transient;
 
-import javax.persistence.MappedSuperclass;
+public class IdentifiableByShortEntity {
 
-@MappedSuperclass
-public class IdentifiableEntity {
-
-	private Long id;
+	private Short id;
 
 	@Transient
-	public Long getId() {
+	public Short getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Short id) {
 		this.id = id;
 	}
 
@@ -34,7 +31,7 @@ public class IdentifiableEntity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		IdentifiableEntity other = (IdentifiableEntity) obj;
+		IdentifiableByShortEntity other = (IdentifiableByShortEntity) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -45,9 +42,7 @@ public class IdentifiableEntity {
 
 	@Override
 	public String toString() {
-		return "IdentifiableEntity [id=" + id + "]";
+		return "[id=" + id + "]";
 	}
-	
-	
-	
+
 }

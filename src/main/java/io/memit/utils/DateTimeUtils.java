@@ -2,6 +2,7 @@ package io.memit.utils;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 
 public final class DateTimeUtils {
@@ -13,6 +14,10 @@ public final class DateTimeUtils {
     
     public static LocalDateTime localNow() {
         return LocalDateTime.now(getClock());
+    }
+    
+    public static OffsetDateTime now() {
+        return OffsetDateTime.now(getClock());
     }
 
     public static void useFixedClockAt(LocalDateTime date){

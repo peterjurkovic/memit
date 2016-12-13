@@ -18,22 +18,17 @@ import javax.persistence.Table;
 import io.memit.utils.DateTimeUtils;
 
 @Entity
-@Table(name = "m_book")
-@SequenceGenerator(name = "m_book_id_seq", sequenceName = "m_book_id_seq", allocationSize = 1)
-public class Book extends SynchronizableEntity {
+@Table(name = "m_lecture")
+@SequenceGenerator(name = "m_lecture_id_seq", sequenceName = "m_lecture_id_seq", allocationSize = 1)
+public class Lecture extends SynchronizableEntity{
 
+	private Book book;
 	private String name;
 	private Lang questionLang;
 	private Lang answerLang;
-	private User author;
-	private Level level;
-	private boolean published;
-	
 	private OffsetDateTime created;
-	private Book forkedForm;
-	private short downloaded;
 	
-	public Book() {
+	public Lecture() {
 		super();
 		setChanged(DateTimeUtils.localNow());
 	}
@@ -41,9 +36,19 @@ public class Book extends SynchronizableEntity {
 	@Id
 	@Override
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "m_book_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "m_lecture_id_seq")
 	public Long getId() {
 		return super.getId();
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "book_id")
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
 	}
 	
 	@Column(name = "book_name", nullable = false, length = 120)
@@ -54,7 +59,7 @@ public class Book extends SynchronizableEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "lang_question", length = 2)
 	public Lang getQuestionLang() {
@@ -64,7 +69,7 @@ public class Book extends SynchronizableEntity {
 	public void setQuestionLang(Lang questionLang) {
 		this.questionLang = questionLang;
 	}
-
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "lang_answer", length = 2)
 	public Lang getAnswerLang() {
@@ -75,35 +80,6 @@ public class Book extends SynchronizableEntity {
 		this.answerLang = answerLang;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	public User getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-	
-	@Column(name = "is_published", nullable = false)
-	public boolean isPublished() {
-		return published;
-	}
-
-	public void setPublished(boolean published) {
-		this.published = published;
-	}
-	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "level", length = 2)
-	public Level getLevel() {
-		return level;
-	}
-
-	public void setLevel(Level level) {
-		this.level = level;
-	}
-
 	@Column(nullable = false)
 	public OffsetDateTime getCreated() {
 		return created;
@@ -113,25 +89,5 @@ public class Book extends SynchronizableEntity {
 		this.created = created;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "forked_book_id")
-	public Book getForkedForm() {
-		return forkedForm;
-	}
-
-	public void setForkedForm(Book forkedForm) {
-		this.forkedForm = forkedForm;
-	}
 	
-	@Column(nullable = false)
-	public short getDownloaded() {
-		return downloaded;
-	}
-
-	public void setDownloaded(short downloaded) {
-		this.downloaded = downloaded;
-	}
-	
-	
-
 }
